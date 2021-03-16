@@ -12,6 +12,9 @@ RUN buildDeps="curl" \
     git \
     make \
   && cd /usr/local/bin \
-  && curl https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz | tar xvz linux-amd64/helm --strip-components=1 \
+  && if [ 'uname -m' = "aarch64" ] ; then curl https://get.helm.sh/helm-$HELM_VERSION-linux-arm64.tar.gz | tar xvz linux-arm64/helm --strip-components=1; \
+     else \
+     curl https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz | tar xvz linux-amd64/helm --strip-components=1; \
+     fi \
   && apt-get purge -y --auto-remove $buildDeps \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
